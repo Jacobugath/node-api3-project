@@ -2,26 +2,35 @@ const express = require('express');
 
 const router = express.Router();
 
+const {
+  get,
+  getById,
+  insert,
+  update,
+  remove,
+} = require('./postDb')
+
 router.get('/', (req, res) => {
-  // do your magic!
+   get().then(a => res.send(a));
 });
 
 router.get('/:id', (req, res) => {
-  // do your magic!
+  getById(req.body.id).then(a => res.send(a));
 });
 
 router.delete('/:id', (req, res) => {
-  // do your magic!
+  remove(req.body.id).then(a => res.send(a))
 });
 
-router.put('/:id', (req, res) => {
-  // do your magic!
+router.put('/:id', validatePostId, (req, res) => {
+    update(req.body.id, req.body).then(a => res.send(a))
 });
 
-// custom middleware
 
 function validatePostId(req, res, next) {
-  // do your magic!
+  if(!req.body) res.status(400).send({ message: "missing post data" })
+  if(!req.body.text) res.status(400).send({ message: "missing required text field" })
+  next();
 }
 
 module.exports = router;

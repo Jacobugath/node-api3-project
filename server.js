@@ -4,6 +4,8 @@ const server = express();
 
 
 const userRouter = require('./users/userRouter');
+const postRouter = require('./posts/postRouter');
+
 
 
 server.get('/', (req, res) => {
@@ -16,6 +18,7 @@ server.listen(5000);
 server.use(express.json());
 server.use(logger);
 server.use('/api/users', userRouter)
+server.use('/api/posts', postRouter)
 
 
 function logger(req, res, next) {
